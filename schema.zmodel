@@ -1,0 +1,97 @@
+﻿// AUY Student Portal Schema - Email as Reference
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  displayName String
+  studentId String? @unique
+  userType String @default("student")
+  major String?
+  studyMode String?
+  photoUrl String?
+  createdAt DateTime @default(now())
+  lastLogin DateTime?
+
+  enrollments Enrollment[]
+  submissions Submission[]
+  taughtCourses Course[]
+  announcements Announcement[]
+}
+
+model Course {
+  id String @id @default(cuid())
+  courseCode String @unique
+  title String
+  description String?
+  credits Int @default(3)
+  instructorEmail String
+  semester String
+  year Int
+  googleClassroomLink String?
+  createdAt DateTime @default(now())
+
+  instructor User @relation(fields: [instructorEmail], references: [email])
+  enrollments Enrollment[]
+  assignments Assignment[]
+  announcements Announcement[]
+}
+
+model Enrollment {
+  id String @id @default(cuid())
+  studentEmail String
+  courseCode String
+  enrollmentDate DateTime @default(now())
+  createdAt DateTime @default(now())
+  finalGrade String?
+  attendancePercentage Float?
+
+  student User @relation(fields: [studentEmail], references: [email])
+  course Course @relation(fields: [courseCode], references: [courseCode])
+
+  @@unique([studentEmail, courseCode])
+}
+
+model Assignment {
+  id String @id @default(cuid())
+  courseCode String
+  title String
+  description String?
+  dueDate DateTime
+  maxPoints Int @default(100)
+  weight Float?
+  createdAt DateTime @default(now())
+  submissionInstructions String?
+
+  course Course @relation(fields: [courseCode], references: [courseCode])
+  submissions Submission[]
+}
+
+model Submission {
+  id String @id @default(cuid())
+  studentEmail String
+  assignmentId String
+  submissionDate DateTime @default(now())
+  createdAt DateTime @default(now())
+  grade Float?
+  feedback String?
+  submissionContentUrl String?
+  status String @default("submitted")
+
+  student User @relation(fields: [studentEmail], references: [email])
+  assignment Assignment @relation(fields: [assignmentId], references: [id])
+
+  @@unique([studentEmail, assignmentId])
+}
+
+model Announcement {
+  id String @id @default(cuid())
+  title String
+  content String
+  authorEmail String
+  courseCode String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  priority String @default("normal")
+
+  author User @relation(fields: [authorEmail], references: [email])
+  course Course? @relation(fields: [courseCode], references: [courseCode])
+}
