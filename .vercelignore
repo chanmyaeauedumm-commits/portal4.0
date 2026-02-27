@@ -1,0 +1,3 @@
+﻿# Force Vercel to use our settings
+node_modules
+.git
