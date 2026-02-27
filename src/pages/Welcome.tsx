@@ -1,11 +1,12 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getStudentEnrollmentsWithFallback, getStudentWithFallback, getStudentStats, Enrollment } from '../lib/portalData';
+import { getStudentEnrollmentsWithFallback, getStudentWithFallback, getStudentStats } from '../lib/portalData';
 import CalendarWidget from '../components/CalendarWidget';
 import { BookOpen, GraduationCap, Calendar as CalendarIcon, TrendingUp } from 'lucide-react';
+import '@fontsource/poppins/400.css';
 
-const Welcome = () => {
-  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
+export const Welcome = () => {
+  const [enrollments, setEnrollments] = useState<any[]>([]);
   const [studentInfo, setStudentInfo] = useState<any>(null);
   const [stats, setStats] = useState({ totalCourses: 0, avgAttendance: 0, gpa: 0 });
   const [loading, setLoading] = useState(true);
@@ -20,10 +21,8 @@ const Welcome = () => {
       }
 
       try {
-        const [studentEnrollments, student] = await Promise.all([
-          getStudentEnrollmentsWithFallback(email),
-          getStudentWithFallback(email)
-        ]);
+        const studentEnrollments = await getStudentEnrollmentsWithFallback(email);
+        const student = await getStudentWithFallback(email);
         
         if (studentEnrollments.length > 0) {
           setEnrollments(studentEnrollments);
@@ -75,7 +74,14 @@ const Welcome = () => {
           <h2 style={{ color: '#111827', marginBottom: '1rem' }}>Student not found</h2>
           <button
             onClick={() => navigate('/')}
-            className="btn btn-primary"
+            style={{
+              padding: '0.5rem 1rem',
+              backgroundColor: '#4F46E5',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer'
+            }}
           >
             Go to Login
           </button>
@@ -84,12 +90,10 @@ const Welcome = () => {
     );
   }
 
-  // Get upcoming courses (next 3)
   const upcomingCourses = enrollments.slice(0, 3);
 
   return (
     <div style={{ padding: '2rem' }}>
-      {/* Welcome Header */}
       <div style={{ marginBottom: '2rem' }}>
         <h1 style={{ fontSize: '1.5rem', color: '#111827', marginBottom: '0.5rem' }}>
           Welcome back, {studentInfo.name}!
@@ -99,15 +103,14 @@ const Welcome = () => {
         </p>
       </div>
 
-      {/* Stats Cards */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
         gap: '1rem',
         marginBottom: '2rem'
       }}>
-        <div className="card stats-card">
-          <div className="stats-icon" style={{ backgroundColor: '#EEF2FF' }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid #F3F4F6', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ padding: '0.75rem', backgroundColor: '#EEF2FF', borderRadius: '10px' }}>
             <BookOpen size={20} color="#4F46E5" />
           </div>
           <div>
@@ -116,8 +119,8 @@ const Welcome = () => {
           </div>
         </div>
 
-        <div className="card stats-card">
-          <div className="stats-icon" style={{ backgroundColor: '#E6F7E6' }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid #F3F4F6', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ padding: '0.75rem', backgroundColor: '#E6F7E6', borderRadius: '10px' }}>
             <TrendingUp size={20} color="#10B981" />
           </div>
           <div>
@@ -126,8 +129,8 @@ const Welcome = () => {
           </div>
         </div>
 
-        <div className="card stats-card">
-          <div className="stats-icon" style={{ backgroundColor: '#FEF3C7' }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid #F3F4F6', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ padding: '0.75rem', backgroundColor: '#FEF3C7', borderRadius: '10px' }}>
             <GraduationCap size={20} color="#92400E" />
           </div>
           <div>
@@ -137,46 +140,33 @@ const Welcome = () => {
         </div>
       </div>
 
-      {/* Two Column Layout */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: '2rem'
       }}>
-        {/* Left Column - Calendar */}
         <div>
-          <h2 style={{
-            fontSize: '1rem',
-            color: '#111827',
-            marginBottom: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}>
+          <h2 style={{ fontSize: '1rem', color: '#111827', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <CalendarIcon size={18} color="#4F46E5" />
             Myanmar Calendar 2026
           </h2>
           <CalendarWidget />
         </div>
 
-        {/* Right Column - Quick Info */}
         <div>
           <h2 style={{ fontSize: '1rem', color: '#111827', marginBottom: '1rem' }}>
             Current Courses
           </h2>
           
-          <div className="card" style={{ padding: '1rem' }}>
+          <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '1rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid #F3F4F6' }}>
             {upcomingCourses.map((course, index) => (
               <div
                 key={index}
                 style={{
                   padding: '0.75rem',
                   borderBottom: index < upcomingCourses.length - 1 ? '1px solid #F3F4F6' : 'none',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  cursor: 'pointer'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F9FAFB'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
                 onClick={() => navigate('/courses')}
               >
                 <p style={{ fontSize: '0.9rem', color: '#111827', marginBottom: '0.25rem' }}>
@@ -189,20 +179,19 @@ const Welcome = () => {
             ))}
           </div>
 
-          {/* Upcoming Events */}
           <div style={{ marginTop: '2rem' }}>
             <h2 style={{ fontSize: '1rem', color: '#111827', marginBottom: '1rem' }}>
               Upcoming Events
             </h2>
             
-            <div className="card" style={{ padding: '1rem' }}>
-              <div className="badge badge-warning" style={{ marginBottom: '0.5rem', display: 'block' }}>
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '1rem', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid #F3F4F6' }}>
+              <div style={{ padding: '0.5rem 0.75rem', backgroundColor: '#FEF3C7', borderRadius: '8px', marginBottom: '0.5rem', color: '#92400E' }}>
                 🎉 Thingyan Festival • April 1-4, 2026
               </div>
-              <div className="badge badge-info" style={{ marginBottom: '0.5rem', display: 'block' }}>
+              <div style={{ padding: '0.5rem 0.75rem', backgroundColor: '#DBEAFE', borderRadius: '8px', marginBottom: '0.5rem', color: '#1E40AF' }}>
                 🎓 Final Exams • May 15-30, 2026
               </div>
-              <div className="badge badge-success" style={{ display: 'block' }}>
+              <div style={{ padding: '0.5rem 0.75rem', backgroundColor: '#D1FAE5', borderRadius: '8px', color: '#065F46' }}>
                 🌟 New Semester • June 1, 2026
               </div>
             </div>
@@ -212,6 +201,3 @@ const Welcome = () => {
     </div>
   );
 };
-
-export { Welcome };
-

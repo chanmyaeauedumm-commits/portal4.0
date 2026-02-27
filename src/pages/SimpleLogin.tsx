@@ -1,10 +1,7 @@
 ﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '@fontsource/poppins/400.css';
-
-// Import Firebase directly from the lib file
 import { auth } from '../lib/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import '@fontsource/poppins/400.css';
 
 const SimpleLogin = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +16,7 @@ const SimpleLogin = () => {
     setError('');
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await auth.signInWithEmailAndPassword(email, password);
       localStorage.setItem('studentEmail', email);
       navigate('/dashboard');
     } catch (err: any) {

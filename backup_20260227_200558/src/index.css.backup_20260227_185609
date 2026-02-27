@@ -1,0 +1,322 @@
+﻿@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '@fontsource/poppins/400.css';
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #F9FAFB;
+  }
+
+  /* Force Poppins Regular everywhere */
+  * {
+    font-weight: 400 !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6, p, span, div, button, a {
+    font-weight: 400 !important;
+  }
+}
+
+@layer components {
+  /* Sidebar Styles */
+  .sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: white;
+    border-right: 1px solid #F3F4F6;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar-logo {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .sidebar-menu {
+    flex: 1;
+    padding: 1.5rem 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem 0;
+    color: #6B7280;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .sidebar-menu-item:hover {
+    background-color: #F9FAFB;
+    color: #4F46E5;
+  }
+
+  .sidebar-menu-item.active {
+    color: #4F46E5;
+    background-color: #EEF2FF;
+    border-left-color: #4F46E5;
+  }
+
+  .sidebar-menu-icon {
+    margin-right: 0.75rem;
+    width: 18px;
+    height: 18px;
+  }
+
+  .sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #F3F4F6;
+  }
+
+  .sidebar-logout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: transparent;
+    color: #EF4444;
+    border: 1px solid #FEE2E2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .sidebar-logout:hover {
+    background-color: #FEF2F2;
+    border-color: #FECACA;
+  }
+
+  /* Main content area */
+  .main-content {
+    flex: 1;
+    margin-left: 260px;
+    min-height: 100vh;
+    background-color: #F9FAFB;
+    transition: margin-left 0.3s ease;
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 50;
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    display: none;
+    cursor: pointer;
+  }
+
+  /* Mobile overlay */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 30;
+    display: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    
+    .main-content {
+      margin-left: 0 !important;
+      padding-top: 4rem;
+    }
+    
+    .mobile-menu-btn {
+      display: block !important;
+    }
+    
+    .mobile-overlay {
+      display: block;
+    }
+  }
+
+  /* Card styles */
+  .card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid #F3F4F6;
+    transition: all 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  /* Stats card */
+  .stats-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .stats-icon {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+
+  /* Table styles */
+  .table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #F3F4F6;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    color: #6B7280;
+    font-weight: 400;
+    background-color: #F9FAFB;
+  }
+
+  .table td {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #F3F4F6;
+  }
+
+  .table tr:hover {
+    background-color: #F9FAFB;
+  }
+
+  /* Badge styles */
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+  }
+
+  .badge-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+  }
+
+  .badge-warning {
+    background-color: #FEF3C7;
+    color: #92400E;
+  }
+
+  .badge-info {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+  }
+
+  .badge-danger {
+    background-color: #FEE2E2;
+    color: #991B1B;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #E5E7EB;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+  }
+
+  /* Input styles */
+  .input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .input:focus {
+    border-color: #4F46E5;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+  }
+
+  /* Button styles */
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background-color: #4F46E5;
+    color: white;
+    box-shadow: 0 4px 6px rgba(79,70,229,0.25);
+  }
+
+  .btn-primary:hover {
+    background-color: #4338CA;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(79,70,229,0.3);
+  }
+
+  .btn-secondary {
+    background-color: white;
+    color: #4B5563;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .btn-secondary:hover {
+    background-color: #F9FAFB;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+}
